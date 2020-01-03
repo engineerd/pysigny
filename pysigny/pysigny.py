@@ -1,10 +1,10 @@
 import click
 import pathlib
 
-import tuf_helpers
+from .tuf_helpers import default_trust_dir, init_repo
 
 global_options = [
-    click.option('--trustdir', default=tuf_helpers.default_trust_dir,
+    click.option('--trustdir', default=default_trust_dir,
                  help='Directory where the trust data is persisted', show_default=True)
 ]
 
@@ -31,7 +31,7 @@ def sign(target, name, trustdir):
     click.echo('Signing file {0} and adding to repo {1} in trust dir {2}'.format(
         target, name, trustdir))
 
-    tuf_helpers.init_repo(target, name, trustdir)
+    init_repo(target, name, trustdir)
 
 
 cli.add_command(sign)
