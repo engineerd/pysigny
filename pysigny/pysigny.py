@@ -1,12 +1,12 @@
 import click
 import pathlib
 
-from .tuf_helpers import default_trust_dir, init_repo
+from .helper import DEFAULT_TRUST_DIR, init_repo
 
-global_options = [
-    click.option('--trustdir', default=default_trust_dir,
-                 help='Directory where the trust data is persisted', show_default=True)
-]
+global_options = (
+    click.option('--trustdir', default=DEFAULT_TRUST_DIR,
+                 help='Directory where the trust data is persisted', show_default=True),
+)
 
 
 def apply_global_options(func):
@@ -23,15 +23,13 @@ def cli():
 
 @apply_global_options
 @click.command()
-@click.argument('target')
-@click.argument('name')
-def sign(target, name, trustdir):
+@click.argument('repo_name')
+def init(repo_name, trustdir):
     """Initializes a new trust collection."""
 
-    click.echo('Signing file {0} and adding to repo {1} in trust dir {2}'.format(
-        target, name, trustdir))
+    click.echo('Init repo {repo_name} in trust dir {trustdir}')
 
-    init_repo(target, name, trustdir)
+    init_repo(trustdir, repo_name)
 
 
-cli.add_command(sign)
+cli.add_command(init)
